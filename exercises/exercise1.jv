@@ -1,5 +1,5 @@
 
-// This Jayvee model describes a pipeline 
+// This Jayvee model describes a pipeline for MADE
 
 pipeline airportsPipeline {
 
