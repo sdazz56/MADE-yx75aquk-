@@ -49,7 +49,7 @@ pipeline treePlantingPipeline {
     } 
 
     
-    //4. Defining the valuuetypes used
+    //4. Defining the valuetypes used
 
     valuetype ValidCityFurth oftype text {
         constraints: [
