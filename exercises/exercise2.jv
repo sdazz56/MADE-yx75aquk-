@@ -1,0 +1,75 @@
+// 1. This Jayvee model describes a pipeline 
+// from a CSV file in the web 
+
+pipeline treePlantingPipeline {
+
+    // 2. We define the pipeline structure by referencing the blocks used.
+  
+    treePlantingExtractor
+        -> treePlantingTextFileInterpreter
+        -> treePlantingCSVInterpreter
+        -> treePlantingColDeleter;
+
+    treePlantingColDeleter
+        -> treePlantingTableInterpreter
+        -> treePlantingLoader;
+
+    // 3. Defning the blocks used
+
+    block treePlantingExtractor oftype HttpExtractor {
+        url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/stadt-neuss-herbstpflanzung-2023/exports/csv";
+    }
+
+    block treePlantingTextFileInterpreter oftype TextFileInterpreter { }
+
+    block treePlantingCSVInterpreter oftype CSVInterpreter {
+        delimiter: ";" ;
+    }
+
+    block treePlantingColDeleter oftype ColumnDeleter {
+        delete: [column E];
+    }
+
+    block treePlantingTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+            "lfd_nr" oftype integer,
+            "stadtteil" oftype ValidCityFurth,
+            "standort" oftype text,
+            "baumart_botanisch" oftype text,
+            "baumart_deutsch" oftype text,
+            "id" oftype ValidId,
+            "baumfamilie" oftype text
+        ];
+    }
+
+    block treePlantingLoader oftype SQLiteLoader {
+        table: "trees";
+        file: "./trees.sqlite";
+    } 
+
+    
+    //4. Defining the valuuetypes used
+
+    valuetype ValidCityFurth oftype text {
+        constraints: [
+            OnlyFurth,
+        ];
+    }
+
+    valuetype ValidId oftype text {
+        constraints: [
+            OnlyDigits,       
+        ];
+    }
+
+    //5. Defining the constraints used
+
+    constraint OnlyDigits on text :
+        value matches /^\d{1,3}\.\d+, \d{1,3}\.\d+$/;  #/^[decimal, decimal]*/;
+    
+
+    constraint OnlyFurth on text :
+        value in ["Furth-Mitte","Furth-Süd","Furth-Nord"];
+    
+}
