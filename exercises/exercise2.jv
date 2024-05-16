@@ -14,7 +14,7 @@ pipeline treePlantingPipeline {
         -> treePlantingTableInterpreter
         -> treePlantingLoader;
 
-    // 3. Defning the blocks used
+    // 3. Defining the blocks used
 
     block treePlantingExtractor oftype HttpExtractor {
         url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/stadt-neuss-herbstpflanzung-2023/exports/csv";
@@ -24,10 +24,6 @@ pipeline treePlantingPipeline {
 
     block treePlantingCSVInterpreter oftype CSVInterpreter {
         delimiter: ";" ;
-    }
-
-    block treePlantingColDeleter oftype ColumnDeleter {
-        delete: [column E];
     }
 
     block treePlantingTableInterpreter oftype TableInterpreter {
@@ -41,6 +37,10 @@ pipeline treePlantingPipeline {
             "id" oftype ValidId,
             "baumfamilie" oftype text
         ];
+    }
+
+    block treePlantingColDeleter oftype ColumnDeleter {
+        delete: [column E];
     }
 
     block treePlantingLoader oftype SQLiteLoader {
@@ -65,11 +65,10 @@ pipeline treePlantingPipeline {
 
     //5. Defining the constraints used
 
-    constraint OnlyDigits on text :
-        value matches /^\d{1,3}\.\d+, \d{1,3}\.\d+$/;  #/^[decimal, decimal]*/;
-    
-
     constraint OnlyFurth on text :
         value in ["Furth-Mitte","Furth-Süd","Furth-Nord"];
+
+    constraint OnlyDigits on text :
+        value matches /^\d{1,3}\.\d+, \d{1,3}\.\d+$/;  
     
 }
