@@ -1,0 +1,88 @@
+// This Jayvee model describes a pipeline 
+// from a CSV file in the web to a SQLite file
+
+pipeline GoodsTransportedByTrainPipeline {
+
+    // Define the pipeline structure by referencing the blocks used.
+    goodsExtractor
+        -> goodsTextFileInterpreter
+        -> goodsCSVInterpreter
+        -> goodsColDeleter
+        -> goodsTableInterpreter
+        -> goodsLoader;
+
+    // Define the blocks used
+
+    block goodsExtractor oftype HttpExtractor {
+        url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46131-0014_00.csv";
+    }
+
+    block goodsTextFileInterpreter oftype TextFileInterpreter { }
+
+    block goodsCSVInterpreter oftype CSVInterpreter {
+        delimiter: ";" ;
+    }
+
+    block goodsColDeleter oftype ColumnDeleter {
+    delete: [
+        column F, column G, column H, column I, column J, column K, column L, column M, column N, column O,
+        column P, column Q, column R, column S, column T, column U, column V, column W, column X, column Y,
+        column Z, column AA, column AB, column AC, column AD, column AE, column AF, column AG, column AH,
+        column AI, column AJ, column AK, column AL, column AM, column AN, column AO, column AP, column AQ,
+        column AR, column AS
+    ];
+    }
+
+
+
+
+    block goodsTableInterpreter oftype TableInterpreter {
+        header: false;
+        columns: [
+            "year" oftype PositiveInteger,
+            "month" oftype ValidMonth,
+            "goods_id" oftype ValidGoodsId,
+            "goods_name" oftype text,
+            "goods_source" oftype text,
+            "abroad" oftype PositiveInteger,
+            "total" oftype PositiveInteger
+        ];
+    }
+
+    block goodsLoader oftype SQLiteLoader {
+        table: "goods";
+        file: "./goodsTransportedByTrain.sqlite";
+    }
+
+    // Define the value types used
+
+    valuetype PositiveInteger oftype integer {
+    constraints: [IsPositive];
+    }
+
+    valuetype ValidMonth oftype text {
+        constraints: [OnlyGermanMonths];
+    }
+
+    valuetype ValidGoodsId oftype text {
+        constraints: [GoodsIdFormat];
+    }
+
+
+    // Define the constraints used
+
+    constraint IsPositive on integer :
+        value > 0;
+    
+
+    constraint OnlyGermanMonths on text :
+        value in [
+            "Januar", "Februar", "März", "April", "Mai", "Juni",
+            "Juli", "August", "September", "Oktober", "November", "Dezember"
+        ];
+    
+
+    constraint GoodsIdFormat on text :
+        value matches /^NST7-[A-Z0-9]{3}$/;
+    
+}
