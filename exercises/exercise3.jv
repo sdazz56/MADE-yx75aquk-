@@ -8,19 +8,23 @@ pipeline GoodsTransportedByTrainPipeline {
         -> goodsTextFileInterpreter
         -> goodsCSVInterpreter
         -> goodsColDeleter
+        -> goodsRowDeleter
         -> goodsTableInterpreter
         -> goodsLoader;
- 
+
     // Define the blocks used
 
     block goodsExtractor oftype HttpExtractor {
         url: "https://www-genesis.destatis.de/genesis/downloads/00/tables/46131-0014_00.csv";
     }
 
-    block goodsTextFileInterpreter oftype TextFileInterpreter { }
+    block goodsTextFileInterpreter oftype TextFileInterpreter {
+        encoding: "latin2" ;
+     }
 
     block goodsCSVInterpreter oftype CSVInterpreter {
         delimiter: ";" ;
+
     }
 
     block goodsColDeleter oftype ColumnDeleter {
@@ -29,10 +33,14 @@ pipeline GoodsTransportedByTrainPipeline {
         column P, column Q, column R, column S, column T, column U, column V, column W, column X, column Y,
         column Z, column AA, column AB, column AC, column AD, column AE, column AF, column AG, column AH,
         column AI, column AJ, column AK, column AL, column AM, column AN, column AO, column AP, column AQ,
-        column AR, column AS
+        column AR, column AS   
     ];
     }
-
+    block goodsRowDeleter oftype RowDeleter {
+    delete: [
+        row 1, row 2, row 3, row 4, row 5, row 6, row 7, row 8, row 41337, row 41338, row 41339
+        ];
+    }
 
 
 
@@ -48,6 +56,7 @@ pipeline GoodsTransportedByTrainPipeline {
             "total" oftype PositiveInteger
         ];
     }
+
 
     block goodsLoader oftype SQLiteLoader {
         table: "goods";
