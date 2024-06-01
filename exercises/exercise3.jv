@@ -1,6 +1,6 @@
 // This Jayvee model describes a pipeline 
 // from a CSV file in the web to a SQLite file
-
+ 
 pipeline GoodsTransportedByTrainPipeline {
 
     // Define the pipeline structure by referencing the blocks used.
