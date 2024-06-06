@@ -35,19 +35,16 @@ Metadata URL: \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data
 Data URL: \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/sdg_13_10?format=TSV&compressed=false}
 
 Data Type: TSV
-
 Description: Contains information on net greenhouse gas emissions, facilitating analysis of environmental impact.
 
 Data Source 3: Climate-related Expenditure
 
 Source: Eurostat API
-
 Metadata URL: \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/sdg_13_50?format=TSV&compressed=false}
 
 Data URL: \url{https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/sdg_13_50?format=TSV&compressed=false}
 
 Data Type: TSV
-
 Description: Provides data on climate-related expenditure, enabling assessment of financial contributions to environmental initiatives.
 
 
