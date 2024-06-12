@@ -14,6 +14,7 @@ pipeline TemperatureDataPipeline {
         -> temperatureModelHeaderWriter
         -> temperatureMonthHeaderWriter
         -> temperatureTableInterpreter
+        -> CelsiusToFahrenheitBatteryTempTransformer
         -> CelsiusToFahrenheitTransformer;
         
 
@@ -82,6 +83,11 @@ pipeline TemperatureDataPipeline {
         use: CelsiusToFahrenheit;
     }
  
+    block CelsiusToFahrenheitBatteryTempTransformer oftype TableTransformer {
+        inputColumns: ['battery_temperature'];
+        outputColumn: 'battery_temperature';
+        use: CelsiusToFahrenheit;
+    }
 
     block temperatureTableInterpreter oftype TableInterpreter {
         header: true;
