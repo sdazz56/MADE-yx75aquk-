@@ -8,6 +8,10 @@ pipeline TemperatureDataPipeline {
         -> temperatureCSVInterpreter
         -> temperatureHeaderWriter
         -> temperatureIdHeaderWriter
+        -> temperatureBatteryHeaderWriter
+        -> temperatureProdHeaderWriter
+        -> temperatureModelHeaderWriter
+        -> temperatureMonthHeaderWriter
         -> temperatureTableInterpreter
         -> CelsiusToFahrenheitTransformer;
         
@@ -46,6 +50,26 @@ pipeline TemperatureDataPipeline {
     block temperatureIdHeaderWriter oftype CellWriter {
         at: cell A1;
         write: ["id"];
+    }
+
+    block temperatureProdHeaderWriter oftype CellWriter {
+        at: cell B1;
+        write: ["producer"];
+    }
+
+    block temperatureModelHeaderWriter oftype CellWriter {
+        at: cell C1;
+        write: ["model"];
+    }
+
+    block temperatureMonthHeaderWriter oftype CellWriter {
+        at: cell D1;
+        write: ["month"];
+    }
+
+    block temperatureBatteryHeaderWriter oftype CellWriter {
+        at: cell J1;
+        write: ["battery_temperature"];
     }
 
     block CelsiusToFahrenheitTransformer oftype TableTransformer {
