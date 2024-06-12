@@ -4,6 +4,7 @@ pipeline TemperatureDataPipeline {
     temperatureExtractor
         -> temperatureZipArchiveInterpreter
         -> temperatureFilePicker
+        
         -> temperatureTextFileInterpreter
         -> temperatureCSVInterpreter
         -> temperatureHeaderWriter
@@ -14,7 +15,7 @@ pipeline TemperatureDataPipeline {
         -> temperatureMonthHeaderWriter
         -> temperatureTableInterpreter
         -> CelsiusToFahrenheitTransformer;
-         
+        
 
         CelsiusToFahrenheitTransformer
         
@@ -29,12 +30,13 @@ pipeline TemperatureDataPipeline {
     }
     
     block temperatureTextFileInterpreter oftype TextFileInterpreter {
-        encoding: "latin2"
+        encoding: "latin2";
     }
 
     block temperatureFilePicker oftype FilePicker {
         path: "/data.csv";
     }
+
 
     block temperatureExtractor oftype HttpExtractor {
         url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
@@ -77,7 +79,7 @@ pipeline TemperatureDataPipeline {
     block CelsiusToFahrenheitTransformer oftype TableTransformer {
         inputColumns: ['temperature'];
         outputColumn: 'temperature';
-        use: CelsiusToFarenheit;
+        use: CelsiusToFahrenheit;
     }
  
 
