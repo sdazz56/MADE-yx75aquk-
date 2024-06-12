@@ -1,0 +1,94 @@
+pipeline TemperatureDataPipeline {
+
+    // Define the pipeline structure by referencing the blocks used.
+    temperatureExtractor
+        -> temperatureZipArchiveInterpreter
+        -> temperatureFilePicker
+        -> temperatureTextFileInterpreter
+        -> temperatureCSVInterpreter
+        -> temperatureHeaderWriter
+        -> temperatureTableInterpreter
+        -> CelsiusToFahrenheitTransformer;
+        
+
+        CelsiusToFahrenheitTransformer
+        
+        -> temperatureLoader;
+
+
+
+    // Define the blocks used
+
+    block temperatureZipArchiveInterpreter oftype ArchiveInterpreter {
+        archiveType: "zip";
+    }
+    
+    block temperatureTextFileInterpreter oftype TextFileInterpreter {}
+
+    block temperatureFilePicker oftype FilePicker {
+        path: "/data.csv";
+    }
+
+    block temperatureExtractor oftype HttpExtractor {
+        url: "https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
+    }
+
+    block temperatureCSVInterpreter oftype CSVInterpreter {
+        delimiter: ";";
+    }
+
+    block temperatureHeaderWriter oftype CellWriter {
+        at: cell E1;
+        write: ["temperature"];
+    }
+
+    block CelsiusToFahrenheitTransformer oftype TableTransformer {
+        inputColumns: ['temperature'];
+        outputColumn: 'temperature';
+        use: CelsiusToFarenheit;
+    }
+
+  
+
+    block temperatureTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+             "id" oftype PositiveInteger,
+            "producer" oftype text,
+            "model" oftype text,
+            "month" oftype text,
+            "temperature" oftype decimal,
+            "battery_temperature" oftype decimal
+        ];
+    } 
+
+    block temperatureLoader oftype SQLiteLoader {
+        table: "temperatures";
+        file: "./temperatures.sqlite";
+    }
+
+    
+
+    // Define the value types used
+
+    valuetype PositiveInteger oftype integer {
+        constraints: [IsPositive];
+    }
+
+
+    // Define the constraints used
+
+    constraint IsPositive on integer :
+        value > 0;
+
+    //Define the transformers used
+
+    transform CelsiusToFarenheit {
+        from temperature oftype decimal;
+        to temperature_ oftype decimal;
+
+        temperature_ : (temperature * 9/5) + 32;
+    }
+
+
+    }
