@@ -7,12 +7,13 @@ pipeline TemperatureDataPipeline {
         -> temperatureTextFileInterpreter
         -> temperatureCSVInterpreter
         -> temperatureHeaderWriter
+        -> temperatureIdHeaderWriter
         -> temperatureTableInterpreter
         -> CelsiusToFahrenheitTransformer;
         
 
         CelsiusToFahrenheitTransformer
-         
+        
         -> temperatureLoader;
 
 
@@ -40,6 +41,11 @@ pipeline TemperatureDataPipeline {
     block temperatureHeaderWriter oftype CellWriter {
         at: cell E1;
         write: ["temperature"];
+    }
+
+    block temperatureIdHeaderWriter oftype CellWriter {
+        at: cell A1;
+        write: ["id"];
     }
 
     block CelsiusToFahrenheitTransformer oftype TableTransformer {
