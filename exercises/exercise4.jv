@@ -28,7 +28,9 @@ pipeline TemperatureDataPipeline {
         archiveType: "zip";
     }
     
-    block temperatureTextFileInterpreter oftype TextFileInterpreter {}
+    block temperatureTextFileInterpreter oftype TextFileInterpreter {
+        encoding: "latin2"
+    }
 
     block temperatureFilePicker oftype FilePicker {
         path: "/data.csv";
@@ -77,8 +79,7 @@ pipeline TemperatureDataPipeline {
         outputColumn: 'temperature';
         use: CelsiusToFarenheit;
     }
-
-  
+ 
 
     block temperatureTableInterpreter oftype TableInterpreter {
         header: true;
@@ -86,7 +87,7 @@ pipeline TemperatureDataPipeline {
              "id" oftype PositiveInteger,
             "producer" oftype text,
             "model" oftype text,
-            "month" oftype text,
+            "month" oftype integer,
             "temperature" oftype decimal,
             "battery_temperature" oftype decimal
         ];
@@ -113,12 +114,15 @@ pipeline TemperatureDataPipeline {
 
     //Define the transformers used
 
-    transform CelsiusToFarenheit {
-        from temperature oftype decimal;
-        to temperature_ oftype decimal;
+    
+    transform CelsiusToFahrenheit {
+    from Celsius oftype decimal;
+    to Fahrenheit oftype decimal;
 
-        temperature_ : (temperature * 9/5) + 32;
+    Fahrenheit: (Celsius * 9/5) + 32;
     }
+
+ 
 
 
     }
