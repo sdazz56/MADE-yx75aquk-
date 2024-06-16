@@ -1,0 +1,91 @@
+pipeline GTFSDataPipeline {
+
+    // Define the pipeline structure by referencing the blocks used.
+    gtfsExtractor
+        -> gtfsZipArchiveInterpreter
+        -> gtfsStopsFilePicker
+        -> gtfsTextFileInterpreter
+        -> gtfsCSVInterpreter
+        -> gtfsColDeleter
+        -> gtfsTableInterpreter
+        -> gtfsLoader;
+
+    // Define the blocks used
+
+    block gtfsZipArchiveInterpreter oftype ArchiveInterpreter {
+        archiveType: "zip";
+    }
+
+    block gtfsTextFileInterpreter oftype TextFileInterpreter {
+        encoding: "latin2";
+    }
+
+    block gtfsStopsFilePicker oftype FilePicker {
+        path: "/stops.txt";
+    }
+
+    block gtfsExtractor oftype HttpExtractor {
+        url: "https://gtfs.rhoenenergie-bus.de/GTFS.zip";
+    }
+
+    block gtfsCSVInterpreter oftype CSVInterpreter {
+        delimiter: ",";
+    }
+
+    block gtfsColDeleter oftype ColumnDeleter {
+        delete: [
+            column A, column D, column H, column I, column J, column K, column L  
+        ];
+        }
+
+    block gtfsTableInterpreter oftype TableInterpreter {
+        header: false;
+        columns: [
+            "stop_id" oftype text,
+            "stop_name" oftype text,
+            "stop_lat" oftype text,
+            "stop_lon" oftype text,
+            "zone_id" oftype text
+        ];
+    }
+
+    block gtfsLoader oftype SQLiteLoader {
+        table: "stops";
+        file: "./gtfs.sqlite";
+    }
+
+    // Define the value types used
+
+    valuetype PositiveInteger oftype integer {
+        constraints: [IsPositive];
+    }
+
+    valuetype RangeScaleCheck oftype decimal {
+        constraints: [RangeScale];
+    }
+
+    valuetype StopNameValid oftype integer {
+        constraints: [IsPositive];
+    }
+
+    valuetype LatValid oftype text {
+        constraints: [RangeScale];
+    }
+
+    // Define the constraints used
+
+    constraint IsPositive on integer :
+        value > 0;
+
+    constraint IsStopNameValid on text :
+        value.length == 8;
+    
+    constraint IsLatValid on text :
+        value matches /^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/;
+
+    constraint RangeScale oftype RangeConstraint {
+        lowerBound: -90;
+        upperBound: 90;
+    }
+}
+
