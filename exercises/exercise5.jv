@@ -9,7 +9,7 @@ pipeline GTFSDataPipeline {
         -> gtfsColDeleter
         -> gtfsTableInterpreter
         -> gtfsLoader;
-
+ 
     // Define the blocks used
 
     block gtfsZipArchiveInterpreter oftype ArchiveInterpreter {
