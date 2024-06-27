@@ -45,8 +45,8 @@ pipeline GTFSDataPipeline {
         columns: [
             "stop_id" oftype integer,
             "stop_name" oftype text,
-            "stop_lat" oftype text,
-            "stop_lon" oftype text,
+            "stop_lat" oftype decimal,
+            "stop_lon" oftype decimal,
             "zone_id" oftype ZoneIdValid
         ];
     }
