@@ -61,7 +61,7 @@ pipeline GTFSDataPipeline {
     
     // Define the value types used
 
-    valuetype ZoneIdValid oftype text {
+    valuetype ZoneIdValid oftype integer {
         constraints: [IsZoneIdValid];
     }
 
@@ -75,8 +75,8 @@ pipeline GTFSDataPipeline {
 
     // Define the constraints used
 
-    constraint IsZoneIdValid on text :
-        value matches /1645/;
+    constraint IsZoneIdValid on integer :
+        value==1645;
 
     constraint IsStopIdValid on text :
         value matches /\d{8}/;
