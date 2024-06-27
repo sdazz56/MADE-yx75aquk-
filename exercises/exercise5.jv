@@ -8,8 +8,9 @@ pipeline GTFSDataPipeline {
         -> gtfsCSVInterpreter
         -> gtfsColDeleter
         -> gtfsTableInterpreter
+        
         -> gtfsLoader;
- 
+
     // Define the blocks used
 
     block gtfsZipArchiveInterpreter oftype ArchiveInterpreter {
@@ -29,7 +30,8 @@ pipeline GTFSDataPipeline {
     }
 
     block gtfsCSVInterpreter oftype CSVInterpreter {
-        delimiter: ",";
+        delimiter: ","; // CSV delimiter
+        enclosing: '"'; // Text enclosing character
     }
 
     block gtfsColDeleter oftype ColumnDeleter {
@@ -41,11 +43,11 @@ pipeline GTFSDataPipeline {
     block gtfsTableInterpreter oftype TableInterpreter {
         header: false;
         columns: [
-            "stop_id" oftype text,
+            "stop_id" oftype integer,
             "stop_name" oftype text,
             "stop_lat" oftype text,
             "stop_lon" oftype text,
-            "zone_id" oftype text
+            "zone_id" oftype ZoneIdValid
         ];
     }
 
@@ -54,38 +56,33 @@ pipeline GTFSDataPipeline {
         file: "./gtfs.sqlite";
     }
 
+    
+
+    
     // Define the value types used
 
-    valuetype PositiveInteger oftype integer {
-        constraints: [IsPositive];
+    valuetype ZoneIdValid oftype text {
+        constraints: [IsZoneIdValid];
     }
 
-    valuetype RangeScaleCheck oftype decimal {
-        constraints: [RangeScale];
-    }
-
-    valuetype StopNameValid oftype integer {
-        constraints: [IsPositive];
+    valuetype StopIdValid oftype text {
+        constraints: [IsStopIdValid];
     }
 
     valuetype LatValid oftype text {
-        constraints: [RangeScale];
+        constraints: [IsLatValid];
     }
 
     // Define the constraints used
 
-    constraint IsPositive on integer :
-        value > 0;
+    constraint IsZoneIdValid on text :
+        value matches /1645/;
 
-    constraint IsStopNameValid on text :
-        value.length == 8;
+    constraint IsStopIdValid on text :
+        value matches /\d{8}/;
     
     constraint IsLatValid on text :
-        value matches /^((\-?|\+?)?\d+(\.\d+)?),\s*((\-?|\+?)?\d+(\.\d+)?)$/;
+        value matches /-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/;
 
-    constraint RangeScale oftype RangeConstraint {
-        lowerBound: -90;
-        upperBound: 90;
-    }
 }
 
