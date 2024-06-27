@@ -18,7 +18,7 @@ pipeline GTFSDataPipeline {
     }
 
     block gtfsTextFileInterpreter oftype TextFileInterpreter {
-        encoding: "latin2";
+        encoding: "utf8";
     }
 
     block gtfsStopsFilePicker oftype FilePicker {
