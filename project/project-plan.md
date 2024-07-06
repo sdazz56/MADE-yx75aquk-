@@ -17,30 +17,30 @@ This project aims to examine the connections between energy consumption, environ
 ## Datasources
 
 <!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
+Data Source 1: Final Energy Consumption by Sector
 
-
-1.	Final Energy Consumption by Sector
 	•	Source: Eurostat API
 	•	Metadata URL: Eurostat Metadata
 	•	Data URL: Eurostat Data
 	•	Data Type: TSV
-	•	Description: Data on final energy consumption by sector.
+	•	Description: Provides data on final energy consumption by sector, allowing analysis of energy usage patterns.
 
+Data Source 2: Net Greenhouse Gas Emissions
 
-2.	Net Greenhouse Gas Emissions
 	•	Source: Eurostat API
 	•	Metadata URL: Eurostat Metadata
 	•	Data URL: Eurostat Data
 	•	Data Type: TSV
-	•	Description: Information on net greenhouse gas emissions.
+	•	Description: Contains information on net greenhouse gas emissions, facilitating analysis of environmental impact.
 
+Data Source 3: Climate-related Expenditure
 
-3.	Climate-related Expenditure
 	•	Source: Eurostat API
 	•	Metadata URL: Eurostat Metadata
 	•	Data URL: Eurostat Data
 	•	Data Type: TSV
-	•	Description: Data on climate-related expenditure.
+	•	Description: Provides data on climate-related expenditure, enabling assessment of financial contributions to environmental initiatives.
+
 ## Work Packages
 
 WP1: Project Setup
