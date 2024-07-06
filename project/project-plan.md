@@ -21,19 +21,19 @@ This project aims to examine the connections between energy consumption, environ
 
 Data Source 1: Final Energy Consumption by Sector
 
-	•	Source: Eurostat API
-	•	Metadata URL: Eurostat Metadata
-	•	Data URL: Eurostat Data
-	•	Data Type: TSV
-	•	Description: Provides data on final energy consumption by sector, allowing analysis of energy usage patterns.
+		Source: Eurostat API
+		Metadata URL: Eurostat Metadata
+		Data URL: Eurostat Data
+		Data Type: TSV
+		Description: Provides data on final energy consumption by sector, allowing analysis of energy usage patterns.
 
 Data Source 2: Net Greenhouse Gas Emissions
 
-	•	Source: Eurostat API
-	•	Metadata URL: Eurostat Metadata
-	•	Data URL: Eurostat Data
-	•	Data Type: TSV
-	•	Description: Contains information on net greenhouse gas emissions, facilitating analysis of environmental impact.
+		Source: Eurostat API
+		Metadata URL: Eurostat Metadata
+		Data URL: Eurostat Data
+		Data Type: TSV
+		Description: Contains information on net greenhouse gas emissions, facilitating analysis of environmental impact.
 
 Data Source 3: Climate-related Expenditure
 
