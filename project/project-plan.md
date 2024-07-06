@@ -21,45 +21,27 @@ This project aims to examine the connections between energy consumption, environ
 
 Data Source 1: Final Energy Consumption by Sector
 
-Source: Eurostat API
-
-Metadata URL: {https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/ten00124?format=TSV&compressed=false}
-
-Data URL: {https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/ten00124?format=TSV&compressed=false}
-
-Data Type: TSV
-
-Description: Provides data on final energy consumption by sector, allowing analysis of energy usage patterns.
-
-
+	•	Source: Eurostat API
+	•	Metadata URL: Eurostat Metadata
+	•	Data URL: Eurostat Data
+	•	Data Type: TSV
+	•	Description: Provides data on final energy consumption by sector, allowing analysis of energy usage patterns.
 
 Data Source 2: Net Greenhouse Gas Emissions
 
-Source: Eurostat API
-
-Metadata URL: {https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/sdg_13_10?format=TSV&compressed=false}
-
-Data URL: {https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/sdg_13_10?format=TSV&compressed=false}
-
-Data Type: TSV
-
-Description: Contains information on net greenhouse gas emissions, facilitating analysis of environmental impact.
-
-
-
+	•	Source: Eurostat API
+	•	Metadata URL: Eurostat Metadata
+	•	Data URL: Eurostat Data
+	•	Data Type: TSV
+	•	Description: Contains information on net greenhouse gas emissions, facilitating analysis of environmental impact.
 
 Data Source 3: Climate-related Expenditure
 
-Source: Eurostat API
-
-Metadata URL: {https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/sdg_13_50?format=TSV&compressed=false}
-
-Data URL: {https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/sdg_13_50?format=TSV&compressed=false}
-
-Data Type: TSV
-
-Description: Provides data on climate-related expenditure, enabling assessment of financial contributions to environmental initiatives.
-
+	•	Source: Eurostat API
+	•	Metadata URL: Eurostat Metadata
+	•	Data URL: Eurostat Data
+	•	Data Type: TSV
+	•	Description: Provides data on climate-related expenditure, enabling assessment of financial contributions to environmental initiatives.
 
 ## Work Packages
 
